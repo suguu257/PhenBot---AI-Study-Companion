@@ -111,3 +111,38 @@ const USER_DATA_STRUCTURE = {
     // }
   }
 };
+// Initialize database (ensure base folders exist)
+function initializeDatabase() {
+  const usersDir = path.join(__dirname, 'users');
+  if (!fs.existsSync(usersDir)) {
+    fs.mkdirSync(usersDir, { recursive: true });
+    console.log("✅ Users directory created");
+  } else {
+    console.log("✅ Users directory already exists");
+  }
+}
+
+// Create directories for a specific user
+function createUserDirectories(userId) {
+  const baseDir = path.join(__dirname, 'users', userId);
+  const subDirs = ['pdfs', 'extracted-text', 'bookmarks', 'flashcards'];
+
+  if (!fs.existsSync(baseDir)) {
+    fs.mkdirSync(baseDir, { recursive: true });
+  }
+
+  subDirs.forEach(sub => {
+    const dirPath = path.join(baseDir, sub);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+  });
+}
+
+// Export functions + structure
+module.exports = {
+  USER_DATA_STRUCTURE,
+  initializeDatabase,
+  createUserDirectories
+};
+
