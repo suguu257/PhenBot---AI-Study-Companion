@@ -1,6 +1,4 @@
-# PhenBot
-'''
-# PhenBOT – AI Study Companion  
+# PhenBot 
 
 PhenBOT is an AI-powered study assistant that makes learning interactive, personalised, and accessible for students of all levels. It provides instant answers, detailed explanations, and tools that turn studying into a more engaging experience.  
 
@@ -17,5 +15,4 @@ PhenBOT is an AI-powered study assistant that makes learning interactive, person
 - **Smart Study Tools** – Pomodoro timer, mindful break suggestions, and study time tracking.  
 
 PhenBOT aims to be your **24/7 personal tutor**, combining AI guidance with tools for effective, focused learning.  
-"""
 
