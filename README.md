@@ -1,7 +1,6 @@
 # PhenBot
-# generate_readme.py
-
-readme_text = """# PhenBOT – AI Study Companion  
+'''
+# PhenBOT – AI Study Companion  
 
 PhenBOT is an AI-powered study assistant that makes learning interactive, personalised, and accessible for students of all levels. It provides instant answers, detailed explanations, and tools that turn studying into a more engaging experience.  
 
@@ -20,7 +19,3 @@ PhenBOT is an AI-powered study assistant that makes learning interactive, person
 PhenBOT aims to be your **24/7 personal tutor**, combining AI guidance with tools for effective, focused learning.  
 """
 
-with open("README.md", "w", encoding="utf-8") as f:
-    f.write(readme_text)
-
-print("README.md created successfully!")
