@@ -33,6 +33,22 @@ const USER_DATA_STRUCTURE = {
         longBreak: 15,
         sessionsUntilLongBreak: 4
       }
+      userProfile: 
+{
+        displayName: '',
+        bio: '',
+        profilePicture: '',
+        studyGoals: [],
+        achievements: [],
+        favoriteSubjects: [],
+        learningStyle: 'visual', // visual, auditory, kinesthetic, reading
+        timezone: 'UTC',
+        notifications: {
+        studyReminders: true,
+        streakAlerts: true,
+        achievementNotifications: true
+  }
+},
     },
     analytics: {
       questionsAsked: 0,
@@ -59,6 +75,16 @@ const USER_DATA_STRUCTURE = {
         create: 0
       },
       weeklyStats: [],
+      dailyProgress: [
+  // {
+  //   date: 'YYYY-MM-DD',
+  //   questionsAnswered: 0,
+  //   studyTimeMinutes: 0,
+  //   subjects: ['math', 'science'],
+  //   pomodoroSessions: 0,
+  //   flashcardsReviewed: 0
+  // }
+],
       monthlyStats: []
     }
   },
@@ -80,3 +106,4 @@ const USER_DATA_STRUCTURE = {
     //       text: 'text-chunk',
     //       length: 0,
     //       embedding: [] // for future vector search
+
