@@ -12,6 +12,11 @@ padding: 0;
 box-sizing: border-box;
 }
 :root {
+--calculator-bg: rgba(30, 41, 59, 0.95);
+--calculator-display: rgba(15, 23, 42, 0.9);
+--calculator-btn: rgba(51, 65, 85, 0.8);
+--calculator-btn-operator: rgba(139, 92, 246, 0.8);
+--calculator-btn-equals: rgba(16, 185, 129, 0.8);
 --primary-purple: #8B5CF6;
 --secondary-blue: #3B82F6;
 --accent-pink: #EC4899;
@@ -400,18 +405,75 @@ cursor: pointer;
 transition: all 0.3s ease;
 }
 .btn-logout:hover {
+    
 background: rgba(255, 255, 255, 0.2);
 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
+    .header-btn {
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.header-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.subject-nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    overflow-x: auto;
+    max-width: 600px;
+}
+
+.subject-nav-btn {
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.subject-nav-btn.active {
+    background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue));
+    color: var(--text-primary);
+}
+
+.add-subject-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-purple);
+    color: white;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 /* ===== MAIN CONTENT ===== */
 .main-content {
-max-width: 1400px;
-margin: 0 auto;
-padding: 100px 24px 24px;
-display: grid;
-grid-template-columns: 1fr 400px;
-gap: 24px;
-min-height: 100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px 24px 24px;
+    min-height: 100vh;
 }
 .chat-section {
 display: flex;
@@ -1043,6 +1105,231 @@ background: rgba(239, 68, 68, 0.9);
 .notification.info {
 background: rgba(139, 92, 246, 0.9);
 }
+/* ===== SCIENTIFIC CALCULATOR ===== */
+.calculator-modal {
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background: var(--calculator-bg);
+backdrop-filter: blur(25px);
+border: 1px solid var(--glass-border);
+border-radius: 20px;
+padding: 20px;
+width: 350px;
+z-index: 10001;
+box-shadow: var(--neon-glow);
+}
+
+.calculator-display {
+background: var(--calculator-display);
+border: 1px solid var(--glass-border);
+border-radius: 8px;
+padding: 15px;
+margin-bottom: 15px;
+text-align: right;
+font-family: 'Space Grotesk', monospace;
+font-size: 1.5rem;
+color: var(--text-primary);
+min-height: 60px;
+word-wrap: break-word;
+}
+
+.calculator-buttons {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+gap: 8px;
+}
+
+.calc-btn {
+padding: 15px;
+background: var(--calculator-btn);
+border: 1px solid var(--glass-border);
+border-radius: 8px;
+color: var(--text-primary);
+cursor: pointer;
+font-weight: 500;
+font-size: 1rem;
+transition: all 0.2s ease;
+}
+
+.calc-btn:hover {
+background: rgba(71, 85, 105, 0.9);
+transform: translateY(-1px);
+}
+
+.calc-btn.operator {
+background: var(--calculator-btn-operator);
+}
+
+.calc-btn.equals {
+background: var(--calculator-btn-equals);
+grid-column: span 2;
+}
+
+.calc-btn.clear {
+background: var(--error-red);
+}
+
+/* ===== TABS SYSTEM ===== */
+.main-tabs {
+display: flex;
+gap: 8px;
+margin-bottom: 20px;
+border-bottom: 1px solid var(--glass-border);
+padding-bottom: 10px;
+}
+
+.tab-btn {
+padding: 10px 20px;
+background: rgba(255, 255, 255, 0.05);
+border: 1px solid var(--glass-border);
+border-radius: 12px 12px 0 0;
+color: var(--text-secondary);
+cursor: pointer;
+transition: all 0.3s ease;
+font-weight: 500;
+}
+
+.tab-btn.active {
+background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue));
+color: var(--text-primary);
+border-bottom-color: transparent;
+}
+
+.tab-content {
+display: none;
+}
+
+.tab-content.active {
+display: block;
+}
+
+/* ===== USER PROFILE ===== */
+.profile-section {
+background: var(--glass-bg);
+backdrop-filter: blur(25px);
+border: 1px solid var(--glass-border);
+border-radius: 16px;
+padding: 20px;
+margin-bottom: 20px;
+}
+
+.profile-header {
+display: flex;
+align-items: center;
+gap: 15px;
+margin-bottom: 20px;
+}
+
+.profile-avatar {
+width: 60px;
+height: 60px;
+border-radius: 50%;
+background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue));
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.5rem;
+color: white;
+}
+
+.profile-info h3 {
+margin: 0 0 5px 0;
+color: var(--text-primary);
+}
+
+.profile-info p {
+margin: 0;
+color: var(--text-secondary);
+font-size: 0.9rem;
+}
+
+.edit-profile-btn {
+padding: 8px 16px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--glass-border);
+border-radius: 8px;
+color: var(--text-primary);
+cursor: pointer;
+font-size: 0.8rem;
+}
+
+/* ===== DAILY PROGRESS TRACKER ===== */
+.daily-tracker {
+background: var(--glass-bg);
+backdrop-filter: blur(25px);
+border: 1px solid var(--glass-border);
+border-radius: 16px;
+padding: 20px;
+margin-bottom: 20px;
+}
+
+.daily-stats {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 15px;
+margin-bottom: 15px;
+}
+
+.daily-stat {
+text-align: center;
+padding: 10px;
+background: rgba(255, 255, 255, 0.05);
+border-radius: 8px;
+}
+
+.daily-stat-value {
+font-size: 1.2rem;
+font-weight: 700;
+color: var(--primary-purple);
+}
+
+.daily-stat-label {
+font-size: 0.7rem;
+color: var(--text-secondary);
+margin-top: 4px;
+}
+
+.weekly-progress {
+margin-top: 15px;
+}
+
+.week-grid {
+display: grid;
+grid-template-columns: repeat(7, 1fr);
+gap: 4px;
+margin-top: 8px;
+}
+
+.day-cell {
+aspect-ratio: 1;
+border-radius: 4px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.7rem;
+font-weight: 600;
+}
+
+.day-cell.completed {
+background: var(--success-green);
+color: white;
+}
+
+.day-cell.partial {
+background: var(--warning-yellow);
+color: white;
+}
+
+.day-cell.empty {
+background: rgba(255, 255, 255, 0.1);
+color: var(--text-secondary);
+}
+
+.day-cell.today {
+border: 2px solid var(--primary-purple);
+}
 </style>
 </head>
 <body>
@@ -1114,83 +1401,171 @@ Already exploring?
 <header class="app-header">
 <div class="header-content">
 <div class="app-logo">PhenBOT 🌌</div>
+<div class="header-center">
+<div class="subject-nav" id="subjectNav">
+<button class="subject-nav-btn active" data-subject="">All</button>
+<button class="subject-nav-btn" data-subject="math">Math</button>
+<button class="subject-nav-btn" data-subject="science">Science</button>
+<button class="subject-nav-btn" data-subject="programming">Code</button>
+<button class="subject-nav-btn" data-subject="physics">Physics</button>
+<button class="add-subject-btn" onclick="showAddSubjectModal()">+</button>
+</div>
+</div>
 <div class="header-right">
+<button class="header-btn" onclick="openCalculator()">🔢</button>
+<button class="header-btn" onclick="showBookmarks()">🔖</button>
+<button class="header-btn" onclick="showProfile()">👤</button>
 <div class="user-stats">
 <div class="streak-display">
 <span>🔥</span>
 <span id="streakCount">0</span>
-<span>day streak</span>
 </div>
-<span id="userInfo">Welcome, Explorer!</span>
 </div>
 <button class="btn-logout" onclick="logout()">Exit</button>
 </div>
 </div>
 </header>
-
+    
 <main class="main-content">
-<section class="chat-section">
-<div class="chat-header">
-<h1 class="chat-title">Your Personalised Study Companion</h1>
-<p class="chat-subtitle">Explore knowledge at your fingertips with AI-powered learning</p>
+<!-- Tabs Navigation -->
+<div class="main-tabs">
+<button class="tab-btn active" onclick="switchTab('chat')">Chat</button>
+<button class="tab-btn" onclick="switchTab('profile')">Profile</button>
+<button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
+<button class="tab-btn" onclick="switchTab('materials')">Materials</button>
 </div>
-<div class="chat-container">
-<div class="chat-messages" id="chatMessages">
-<div class="message bot">
-<div class="message-header">
-<span>🤖</span>
-<span>PhenBOT</span>
+
+<div class="tab-content active" id="chatTab">
+    <section class="chat-section">
+        <div class="chat-header">
+            <h1 class="chat-title">Your Personalised Study Companion</h1>
+            <p class="chat-subtitle">Explore knowledge at your fingertips with AI-powered learning</p>
+        </div>
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <div class="message-header">
+                        <span>🤖</span>
+                        <span>PhenBOT</span>
+                    </div>
+                    <div class="message-content">
+                        Welcome to the cosmos of knowledge! I'm your AI study companion, ready to help you explore any subject. Upload study materials, ask questions, and let's embark on this learning journey together! ✨
+                    </div>
+                    <div class="message-meta">
+                        <span>AI Assistant</span>
+                        <div class="accuracy-badge accuracy-high">
+                            <span>✓</span>
+                            <span>System Message</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="loading" id="loading">
+                <div class="loading-animation"></div>
+                <span>Thinking….<span id="loadingDots">...</span></span>
+            </div>
+            <div class="chat-input-container">
+                <div class="input-controls">
+                    <div class="mode-selector">
+                        <button class="mode-btn active" data-mode="normal">Normal</button>
+                        <button class="mode-btn" data-mode="analogy">Analogy</button>
+                        <button class="mode-btn" data-mode="quiz">Quiz</button>
+                        <button class="mode-btn" data-mode="reverse">Teach Bot</button>
+                    </div>
+                    <div class="length-selector">
+                        <button class="length-btn" data-length="short">Short</button>
+                        <button class="length-btn active" data-length="medium">Medium</button>
+                        <button class="length-btn" data-length="long">Detailed</button>
+                    </div>
+                </div>
+                <div class="chat-input-wrapper">
+                    <div class="difficulty-selector">
+                        <label for="difficultyRange">Difficulty: <span id="difficultyValue">5</span></label>
+                        <input type="range" id="difficultyRange" min="1" max="10" value="5">
+                    </div>
+                    <textarea 
+                    class="chat-input" 
+                    id="chatInput" 
+                    placeholder="Ask me anything" 
+                    rows="1"></textarea>
+                    <button class="send-btn" onclick="sendMessage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
-<div class="message-content">
-Welcome to the cosmos of knowledge! I'm your AI study companion, ready to help you explore any subject. Upload study materials, ask questions, and let's embark on this learning journey together! ✨
+
+<!-- Profile Tab -->
+<div class="tab-content" id="profileTab">
+<div class="profile-section">
+<div class="profile-header">
+<div class="profile-avatar" id="profileAvatar">👤</div>
+<div class="profile-info">
+<h3 id="profileName">User Name</h3>
+<p id="profileEmail">user@email.com</p>
 </div>
-<div class="message-meta">
-<span>AI Assistant</span>
-<div class="accuracy-badge accuracy-high">
-<span>✓</span>
-<span>System Message</span>
-</div>
-</div>
-</div>
-</div>
-<div class="loading" id="loading">
-<div class="loading-animation"></div>
-<span>Thinking….<span id="loadingDots">...</span></span>
-</div>
-<div class="chat-input-container">
-<div class="input-controls">
-<div class="mode-selector">
-<button class="mode-btn active" data-mode="normal">Normal</button>
-<button class="mode-btn" data-mode="analogy">Analogy</button>
-<button class="mode-btn" data-mode="quiz">Quiz</button>
-<button class="mode-btn" data-mode="reverse">Teach Bot</button>
-</div>
-<div class="length-selector">
-<button class="length-btn" data-length="short">Short</button>
-<button class="length-btn active" data-length="medium">Medium</button>
-<button class="length-btn" data-length="long">Detailed</button>
+<button class="edit-profile-btn" onclick="editProfile()">Edit</button>
 </div>
 </div>
-<div class="chat-input-wrapper">
-<div class="difficulty-selector">
-<label for="difficultyRange">Difficulty: <span id="difficultyValue">5</span></label>
-<input type="range" id="difficultyRange" min="1" max="10" value="5">
+
+<div class="daily-tracker">
+<h3 class="card-title">📅 Daily Progress</h3>
+<div class="daily-stats">
+<div class="daily-stat">
+<div class="daily-stat-value" id="todayQuestions">0</div>
+<div class="daily-stat-label">Questions Today</div>
 </div>
-<textarea 
-class="chat-input" 
-id="chatInput" 
-placeholder="Ask me anything" 
-rows="1"></textarea>
-<button class="send-btn" onclick="sendMessage()">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-<line x1="22" y1="2" x2="11" y2="13"></line>
-<polygon points="22,2 15,22 11,13 2,9"></polygon>
-</svg>
-</button>
+<div class="daily-stat">
+<div class="daily-stat-value" id="todayTime">0m</div>
+<div class="daily-stat-label">Study Time</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-value" id="todayPomodoros">0</div>
+<div class="daily-stat-label">Pomodoros</div>
+</div>
+<div class="daily-stat">
+<div class="daily-stat-value" id="todayCards">0</div>
+<div class="daily-stat-label">Cards Reviewed</div>
+</div>
+</div>
+<div class="weekly-progress">
+<h4>This Week</h4>
+<div class="week-grid" id="weekGrid">
+<!-- Will be populated by JavaScript -->
 </div>
 </div>
 </div>
-</section>
+</div>
+
+<!-- Analytics Tab -->
+<div class="tab-content" id="analyticsTab">
+    <div class="sidebar-card">
+        <h3 class="card-title">📊 Subject-wise Analytics</h3>
+        <p style="color: var(--text-secondary); text-align: center; padding: 20px;">
+            Subject analytics feature coming soon!
+        </p>
+    </div>
+</div>
+
+<!-- Materials Tab -->
+<div class="tab-content" id="materialsTab">
+    <div class="sidebar-card">
+        <h3 class="card-title">📄 Study Materials Manager</h3>
+        <div id="materialsContent">
+            <!-- Will be populated by JavaScript -->
+            <p style="color: var(--text-secondary); text-align: center; padding: 20px;">
+                Materials management feature coming soon!
+            </p>
+        </div>
+    </div>
+</div>
+
+
 
 <aside class="sidebar">
 <!-- Subject Navigation -->
@@ -1301,6 +1676,7 @@ No PDFs uploaded yet
 <div class="timer-controls">
 <button class="timer-btn" id="startTimer">Start</button>
 <button class="timer-btn" id="pauseTimer">Pause</button>
+<button class="timer-btn" id="resumeTimer" style="display: none;">Resume</button>
 <button class="timer-btn" id="resetTimer">Reset</button>
 </div>
 </div>
@@ -1366,7 +1742,7 @@ No PDFs uploaded yet
 <button class="close-modal" onclick="closePDFModal()">&times;</button>
 </div>
 <div style="margin-bottom: 20px;">
-<input type="file" id="pdfFileInput" accept=".pdf" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-primary);">
+<input type="file" id="pdfFileInput" accept=".pdf" multiple style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-primary);">
 </div>
 <div style="display: flex; gap: 12px; justify-content: flex-end;">
 <button class="timer-btn" onclick="closePDFModal()">Cancel</button>
@@ -1480,18 +1856,28 @@ let userPDFs = [];
 let userFlashcards = { userMade: [], aiGenerated: [] };
 let currentFlashcardIndex = 0;
 let currentFlashcardType = 'userMade';
+let currentTab = 'chat';
+let calculatorOpen = false;
+let dailyProgress = {
+    date: new Date().toISOString().split('T')[0],
+    questionsAnswered: 0,
+    studyTimeMinutes: 0,
+    pomodoroSessions: 0,
+    flashcardsReviewed: 0
+};
+
 let userAnalytics = {
-questionsAsked: 0,
-conceptsLearned: [],
-studyTime: 0,
-bloomsLevels: {
-remember: 0,
-understand: 0,
-apply: 0,
-analyze: 0,
-evaluate: 0,
-create: 0
-}
+    questionsAsked: 0,
+    conceptsLearned: [],
+    studyTime: 0,
+    bloomsLevels: {
+        remember: 0,
+        understand: 0,
+        apply: 0,
+        analyze: 0,
+        evaluate: 0,
+        create: 0
+    }
 };
 
 // ===== POMODORO TIMER =====
@@ -1527,6 +1913,8 @@ dots.textContent = current.length >= 3 ? '.' : current + '.';
 
 // ===== EVENT LISTENERS =====
 function setupEventListeners() {
+    // Resume timer
+document.getElementById('resumeTimer').addEventListener('click', resumePomodoro);
 // Auth forms
 document.getElementById('loginForm').addEventListener('submit', handleLogin);
 document.getElementById('registerForm').addEventListener('submit', handleRegister);
@@ -1689,7 +2077,7 @@ document.getElementById('registerPage').classList.add('hidden');
 document.getElementById('mainApp').style.display = 'block';
 
 if (currentUser) {
-document.getElementById('userInfo').textContent = `Welcome, ${currentUser.username}!`;
+console.log(`Welcome, ${currentUser.username}!`);
 document.getElementById('streakCount').textContent = currentUser.preferences?.studyStreak || 0;
 
 if (currentUser.analytics) {
@@ -1750,51 +2138,51 @@ function closePDFModal() {
 }
 
 async function uploadPDFFile() {
-    const fileInput = document.getElementById('pdfFileInput');
-    const file = fileInput.files[0];
+const fileInput = document.getElementById('pdfFileInput');
+const files = fileInput.files;
 
-    if (!file) {
-        showNotification('Please select a PDF file', 'error');
-        return;
-    }
+if (files.length === 0) {
+showNotification('Please select PDF files', 'error');
+return;
+}
 
-    if (file.type !== 'application/pdf') {
-        showNotification('Please select a valid PDF file', 'error');
-        return;
-    }
+// Check if all files are PDFs
+for (let file of files) {
+if (file.type !== 'application/pdf') {
+showNotification('Please select only PDF files', 'error');
+return;
+}
+}
 
-    const formData = new FormData();
-    formData.append('pdf', file);
-    formData.append('userId', currentUser.userId);
+const formData = new FormData();
+for (let file of files) {
+formData.append('pdfs', file);
+}
+formData.append('userId', currentUser.userId);
 
-    try {
-        showNotification('Processing your document...', 'info');
-        closePDFModal();
+try {
+showNotification(`Processing ${files.length} document(s)...`, 'info');
+closePDFModal();
 
-        const response = await fetch('/upload.pdf', {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${sessionToken}` },
-            body: formData
-        });
-        
-        const data = await response.json();
+const response = await fetch('/upload-pdfs', {
+method: 'POST',
+headers: { 'Authorization': `Bearer ${sessionToken}` },
+body: formData
+});
 
-        if (data.success) {
-            showNotification(`${file.name} uploaded successfully!`, 'success');
-            
-            // FIX: Add these lines to refresh the PDF list
-            await loadUserPDFs(); // This was missing!
-            
-            // Optional: Show additional success info
-            console.log('PDF processed:', data);
-            
-        } else {
-            showNotification(data.error || 'PDF upload failed', 'error');
-        }
-    } catch (error) {
-        console.error('PDF upload error:', error);
-        showNotification('PDF upload failed. Please try again.', 'error');
-    }
+const data = await response.json();
+
+if (data.success) {
+const successCount = data.results.filter(r => r.success).length;
+showNotification(`Successfully uploaded ${successCount}/${files.length} files!`, 'success');
+await loadUserPDFs();
+} else {
+showNotification('Upload failed', 'error');
+}
+} catch (error) {
+console.error('PDF upload error:', error);
+showNotification('Upload failed. Please try again.', 'error');
+}
 }
 
 
@@ -2159,11 +2547,22 @@ updateTimerDisplay();
 }
 
 function pausePomodoro() {
+if (pomodoroTimer.isRunning) {
 pomodoroTimer.isRunning = false;
-document.getElementById('startTimer').classList.remove('active');
+document.getElementById('startTimer').style.display = 'none';
+document.getElementById('pauseTimer').style.display = 'none';
+document.getElementById('resumeTimer').style.display = 'inline-block';
 if (pomodoroTimer.interval) {
 clearInterval(pomodoroTimer.interval);
 }
+}
+}
+
+function resumePomodoro() {
+document.getElementById('startTimer').style.display = 'inline-block';
+document.getElementById('pauseTimer').style.display = 'inline-block';
+document.getElementById('resumeTimer').style.display = 'none';
+startPomodoro();
 }
 
 function resetPomodoro() {
@@ -2277,8 +2676,170 @@ async function handlePDFUpload(event) {
 }
 
 
+// ===== SCIENTIFIC CALCULATOR =====
+function openCalculator() {
+if (calculatorOpen) return;
+calculatorOpen = true;
 
+const modal = document.createElement('div');
+modal.className = 'modal-overlay';
+modal.id = 'calculatorModal';
+modal.innerHTML = `
+<div class="calculator-modal">
+<div class="modal-header">
+<h3>Scientific Calculator</h3>
+<button class="close-modal" onclick="closeCalculator()">&times;</button>
+</div>
+<div class="calculator-display" id="calcDisplay">0</div>
+<div class="calculator-buttons">
+<button class="calc-btn clear" onclick="calcClear()">C</button>
+<button class="calc-btn" onclick="calcInput('(')">(</button>
+<button class="calc-btn" onclick="calcInput(')')">)</button>
+<button class="calc-btn operator" onclick="calcInput('/')">÷</button>
+<button class="calc-btn" onclick="calcInput('sqrt(')">√</button>
+
+<button class="calc-btn" onclick="calcInput('7')">7</button>
+<button class="calc-btn" onclick="calcInput('8')">8</button>
+<button class="calc-btn" onclick="calcInput('9')">9</button>
+<button class="calc-btn operator" onclick="calcInput('*')">×</button>
+<button class="calc-btn" onclick="calcInput('^')">^</button>
+
+<button class="calc-btn" onclick="calcInput('4')">4</button>
+<button class="calc-btn" onclick="calcInput('5')">5</button>
+<button class="calc-btn" onclick="calcInput('6')">6</button>
+<button class="calc-btn operator" onclick="calcInput('-')">-</button>
+<button class="calc-btn" onclick="calcInput('sin(')">sin</button>
+
+<button class="calc-btn" onclick="calcInput('1')">1</button>
+<button class="calc-btn" onclick="calcInput('2')">2</button>
+<button class="calc-btn" onclick="calcInput('3')">3</button>
+<button class="calc-btn operator" onclick="calcInput('+')">+</button>
+<button class="calc-btn" onclick="calcInput('cos(')">cos</button>
+
+<button class="calc-btn" onclick="calcInput('0')">0</button>
+<button class="calc-btn" onclick="calcInput('.')">.</button>
+<button class="calc-btn" onclick="calcInput('π')">π</button>
+<button class="calc-btn equals" onclick="calcEquals()">=</button>
+</div>
+</div>
+`;
+
+document.body.appendChild(modal);
+modal.style.display = 'flex';
+}
+
+function closeCalculator() {
+const modal = document.getElementById('calculatorModal');
+if (modal) {
+modal.remove();
+}
+calculatorOpen = false;
+}
+
+let calcExpression = '';
+
+function calcInput(value) {
+const display = document.getElementById('calcDisplay');
+if (calcExpression === '0') calcExpression = '';
+calcExpression += value;
+display.textContent = calcExpression;
+}
+
+function calcClear() {
+calcExpression = '';
+document.getElementById('calcDisplay').textContent = '0';
+}
+
+function calcEquals() {
+try {
+let expr = calcExpression
+.replace(/×/g, '*')
+.replace(/÷/g, '/')
+.replace(/π/g, Math.PI)
+.replace(/sin\(/g, 'Math.sin(')
+.replace(/cos\(/g, 'Math.cos(')
+.replace(/sqrt\(/g, 'Math.sqrt(')
+.replace(/\^/g, '**');
+        
+const result = eval(expr);
+document.getElementById('calcDisplay').textContent = result;
+calcExpression = result.toString();
+} catch (error) {
+document.getElementById('calcDisplay').textContent = 'Error';
+calcExpression = '';
+}
+}
+
+// ===== TAB SYSTEM =====
+function switchTab(tabName) {
+// Hide all tabs
+document.querySelectorAll('.tab-content').forEach(tab => {
+tab.classList.remove('active');
+});
+document.querySelectorAll('.tab-btn').forEach(btn => {
+btn.classList.remove('active');
+});
+
+// Show selected tab
+document.getElementById(tabName + 'Tab').classList.add('active');
+event.target.classList.add('active');
+currentTab = tabName;
+}
+
+// ===== PROFILE FUNCTIONS =====
+function showProfile() {
+switchTab('profile');
+loadUserProfile();
+}
+
+function loadUserProfile() {
+if (currentUser) {
+document.getElementById('profileName').textContent = currentUser.username;
+document.getElementById('profileEmail').textContent = currentUser.email || 'No email';
+document.getElementById('profileAvatar').textContent = currentUser.username.charAt(0).toUpperCase();
+}
+updateDailyProgress();
+}
+
+function updateDailyProgress() {
+const today = new Date().toISOString().split('T')[0];
+
+// Update today's stats
+document.getElementById('todayQuestions').textContent = dailyProgress.questionsAnswered;
+document.getElementById('todayTime').textContent = dailyProgress.studyTimeMinutes + 'm';
+document.getElementById('todayPomodoros').textContent = dailyProgress.pomodoroSessions;
+document.getElementById('todayCards').textContent = dailyProgress.flashcardsReviewed;
+
+// Update week grid
+const weekGrid = document.getElementById('weekGrid');
+const today_date = new Date();
+const currentWeekDays = [];
+
+for (let i = 6; i >= 0; i--) {
+const day = new Date(today_date);
+day.setDate(day.getDate() - i);
+currentWeekDays.push(day);
+}
+
+weekGrid.innerHTML = currentWeekDays.map(day => {
+const dayStr = day.toISOString().split('T')[0];
+const isToday = dayStr === today;
+const dayNum = day.getDate();
+let className = 'day-cell empty';
+if (isToday) className += ' today';
+
+return `<div class="${className}">${dayNum}</div>`;
+}).join('');
+}
 // Initialize timer display and other components
+    // ===== MISSING FUNCTIONS =====
+function showAddSubjectModal() {
+    showNotification('Add custom subject feature coming soon!', 'info');
+}
+
+function editProfile() {
+    showNotification('Profile editing feature coming soon!', 'info');
+}
 updateTimerDisplay();
 
 // Close modals when clicking outside
@@ -2300,6 +2861,7 @@ flashcardTypeEl.style.textDecoration = 'underline';
 </script>
 </body>
 </html>
+
 
 
 
