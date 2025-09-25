@@ -32,9 +32,8 @@ const USER_DATA_STRUCTURE = {
         shortBreak: 5,
         longBreak: 15,
         sessionsUntilLongBreak: 4
-      }
-      userProfile: 
-{
+      },
+      userProfile: {
         displayName: '',
         bio: '',
         profilePicture: '',
@@ -44,12 +43,13 @@ const USER_DATA_STRUCTURE = {
         learningStyle: 'visual', // visual, auditory, kinesthetic, reading
         timezone: 'UTC',
         notifications: {
-        studyReminders: true,
-        streakAlerts: true,
-        achievementNotifications: true
-  }
-},
-    },
+          studyReminders: true,
+          streakAlerts: true,
+          achievementNotifications: true
+        }
+      }
+    }, // ✅ closes preferences correctly
+
     analytics: {
       questionsAsked: 0,
       conceptsLearned: [],
@@ -76,19 +76,19 @@ const USER_DATA_STRUCTURE = {
       },
       weeklyStats: [],
       dailyProgress: [
-  // {
-  //   date: 'YYYY-MM-DD',
-  //   questionsAnswered: 0,
-  //   studyTimeMinutes: 0,
-  //   subjects: ['math', 'science'],
-  //   pomodoroSessions: 0,
-  //   flashcardsReviewed: 0
-  // }
-],
+        // {
+        //   date: 'YYYY-MM-DD',
+        //   questionsAnswered: 0,
+        //   studyTimeMinutes: 0,
+        //   subjects: ['math', 'science'],
+        //   pomodoroSessions: 0,
+        //   flashcardsReviewed: 0
+        // }
+      ],
       monthlyStats: []
     }
   },
-  
+
   pdfs: {
     // filename: {
     //   id: 'unique-id',
@@ -106,4 +106,8 @@ const USER_DATA_STRUCTURE = {
     //       text: 'text-chunk',
     //       length: 0,
     //       embedding: [] // for future vector search
-
+    //     }
+    //   ]
+    // }
+  }
+};
