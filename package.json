@@ -1,0 +1,21 @@
+{
+  "name": "phenbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cosine-similarity": "^1.0.1",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "formidable": "^3.5.4",
+    "node-fetch": "^2.7.0",
+    "pdf-parse": "^1.1.1"
+  }
+}

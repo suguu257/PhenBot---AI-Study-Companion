@@ -1,1 +1,1 @@
-# PhenBot---AI-Study-Companion
+# PhenBot

@@ -1,0 +1,17 @@
+{
+  "math": {
+    "What is 2+2?": "2+2 equals 4.",
+    "What is the Pythagorean theorem?": "In a right-angled triangle, the square of the hypotenuse is equal to the sum of the squares of the other two sides. (a² + b² = c²)",
+    "What is derivative of x^2?": "The derivative of x² with respect to x is 2x."
+  },
+  "science": {
+    "What is photosynthesis?": "Photosynthesis is the process by which green plants use sunlight, water, and carbon dioxide to produce glucose and oxygen.",
+    "What is Newton's first law?": "An object will remain at rest, or in uniform motion in a straight line, unless acted upon by an external force.",
+    "What is the boiling point of water?": "At standard atmospheric pressure, water boils at 100°C (212°F)."
+  },
+  "programming": {
+    "What is a variable?": "A variable is a named storage that holds data which can be changed during program execution.",
+    "What is a function?": "A function is a reusable block of code that performs a specific task when called.",
+    "What is an array?": "An array is a data structure that stores multiple values in a single variable, accessible by an index."
+  }
+}

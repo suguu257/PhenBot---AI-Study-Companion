@@ -1,0 +1,28 @@
+{
+  "math": [
+    "algebra",
+    "calculus",
+    "geometry",
+    "statistics"
+  ],
+  "science": [
+    "physics",
+    "chemistry",
+    "biology"
+  ],
+  "programming": [
+    "javascript",
+    "python",
+    "algorithms",
+    "data-structures"
+  ],
+  "history": [
+    "world-history",
+    "ancient-civilizations"
+  ],
+  "literature": [
+    "poetry",
+    "novels",
+    "drama"
+  ]
+}

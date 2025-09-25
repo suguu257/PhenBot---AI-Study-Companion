@@ -1,0 +1,2311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhenBOT ~ AI Study Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+:root {
+--primary-purple: #8B5CF6;
+--secondary-blue: #3B82F6;
+--accent-pink: #EC4899;
+--dark-space: #0B0D17;
+--deep-purple: #1A1B3A;
+--cosmic-blue: #2D1B69;
+--text-primary: #FFFFFF;
+--text-secondary: #9CA3AF;
+--glass-bg: rgba(17, 25, 40, 0.8);
+--glass-border: rgba(255, 255, 255, 0.1);
+--neon-glow: 0 0 20px rgba(139, 92, 246, 0.5);
+--success-green: #10B981;
+--warning-yellow: #F59E0B;
+--error-red: #EF4444;
+}
+body {
+font-family: 'Inter', sans-serif;
+background: var(--dark-space);
+min-height: 100vh;
+overflow-x: hidden;
+position: relative;
+color: var(--text-primary);
+}
+/* ===== GALAXY BACKGROUND ===== */
+.galaxy-container {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 0;
+overflow: hidden;
+}
+.galaxy-bg {
+position: absolute;
+width: 100%;
+height: 100%;
+background:
+radial-gradient(ellipse at center, var(--deep-purple) 0%, var(--cosmic-blue) 30%, var(--dark-space) 70%),
+radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+radial-gradient(circle at 60% 60%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+animation: galaxyPulse 20s infinite ease-in-out;
+}
+@keyframes galaxyPulse {
+0%, 100% { filter: brightness(1) hue-rotate(0deg); }
+50% { filter: brightness(1.2) hue-rotate(10deg); }
+}
+.rotating-galaxy {
+position: absolute;
+top: 50%;
+left: 50%;
+width: 120%;
+height: 120%;
+transform: translate(-50%, -50%);
+background:
+conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(139, 92, 246, 0.1) 60deg, transparent 120deg, rgba(59, 130, 246, 0.08) 180deg, transparent 240deg, rgba(236, 72, 153, 0.05) 300deg, transparent 360deg);
+animation: rotateGalaxy 60s linear infinite;
+border-radius: 50%;
+}
+@keyframes rotateGalaxy {
+from { transform: translate(-50%, -50%) rotate(0deg); }
+to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+/* ===== STARS SYSTEM ===== */
+.stars-layer {
+position: absolute;
+width: 100%;
+height: 100%;
+}
+.star {
+position: absolute;
+background: white;
+border-radius: 50%;
+animation: twinkle 3s infinite ease-in-out;
+}
+.star.small {
+width: 1px;
+height: 1px;
+box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+.star.medium {
+width: 2px;
+height: 2px;
+box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+}
+.star.large {
+width: 3px;
+height: 3px;
+box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+}
+.star.giant {
+width: 4px;
+height: 4px;
+box-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 0 0 40px rgba(139, 92, 246, 0.4);
+animation: giantTwinkle 4s infinite ease-in-out;
+}
+.star.blue {
+background: #3B82F6;
+box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+}
+.star.purple {
+background: #8B5CF6;
+box-shadow: 0 0 15px rgba(139, 92, 246, 0.8);
+}
+.star.pink {
+background: #EC4899;
+box-shadow: 0 0 15px rgba(236, 72, 153, 0.8);
+}
+@keyframes twinkle {
+0%, 100% { opacity: 0.3; transform: scale(1); }
+50% { opacity: 1; transform: scale(1.2); }
+}
+@keyframes giantTwinkle {
+0%, 100% {
+opacity: 0.6;
+transform: scale(1);
+box-shadow: 0 0 20px rgba(139, 92, 246, 0.8), 0 0 40px rgba(139, 92, 246, 0.4);
+}
+50% {
+opacity: 1;
+transform: scale(1.5);
+box-shadow: 0 0 30px rgba(139, 92, 246, 1), 0 0 60px rgba(139, 92, 246, 0.6);
+}
+}
+/* ===== SHOOTING STARS ===== */
+.shooting-star {
+position: absolute;
+height: 2px;
+background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0) 100%);
+border-radius: 50px;
+animation: shootingStar 3s linear infinite;
+box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+.shooting-star::before {
+content: '';
+position: absolute;
+top: 50%;
+right: 0;
+width: 6px;
+height: 6px;
+background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, transparent 70%);
+border-radius: 50%;
+transform: translateY(-50%);
+box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+}
+@keyframes shootingStar {
+0% {
+transform: translateX(-100px) translateY(0) rotate(-45deg);
+opacity: 0;
+width: 0px;
+}
+10% {
+opacity: 1;
+width: 100px;
+}
+90% {
+opacity: 1;
+width: 100px;
+}
+100% {
+transform: translateX(calc(100vw + 100px)) translateY(-200px) rotate(-45deg);
+opacity: 0;
+width: 0px;
+}
+}
+/* ===== COSMIC DUST ===== */
+.cosmic-dust {
+position: absolute;
+width: 100%;
+height: 100%;
+background-image:
+radial-gradient(2px 2px at 20px 30px, rgba(139, 92, 246, 0.3), transparent),
+radial-gradient(1px 1px at 40px 70px, rgba(59, 130, 246, 0.4), transparent),
+radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.6), transparent),
+radial-gradient(2px 2px at 130px 80px, rgba(236, 72, 153, 0.3), transparent);
+background-repeat: repeat;
+background-size: 200px 150px;
+animation: driftDust 40s infinite linear;
+opacity: 0.7;
+}
+@keyframes driftDust {
+from { transform: translateX(0) translateY(0); }
+to { transform: translateX(-200px) translateY(-150px); }
+}
+/* ===== AUTH PAGES ===== */
+.auth-page {
+position: relative;
+z-index: 10;
+display: flex;
+align-items: center;
+justify-content: center;
+min-height: 100vh;
+padding: 20px;
+}
+.auth-container {
+background: var(--glass-bg);
+backdrop-filter: blur(25px);
+border: 1px solid var(--glass-border);
+border-radius: 24px;
+padding: 48px 40px;
+width: 100%;
+max-width: 450px;
+text-align: center;
+position: relative;
+overflow: hidden;
+box-shadow: var(--neon-glow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.auth-container::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+animation: shimmer 3s infinite;
+}
+@keyframes shimmer {
+0% { left: -100%; }
+100% { left: 100%; }
+}
+.logo-section {
+margin-bottom: 40px;
+}
+.logo-title {
+font-family: 'Space Grotesk', sans-serif;
+font-size: 3rem;
+font-weight: 700;
+color: var(--text-primary);
+margin-bottom: 12px;
+text-shadow: 0 0 30px rgba(139, 92, 246, 0.8);
+animation: logoGlow 2s infinite alternate;
+}
+@keyframes logoGlow {
+from { text-shadow: 0 0 30px rgba(139, 92, 246, 0.8); }
+to { text-shadow: 0 0 40px rgba(139, 92, 246, 1), 0 0 60px rgba(59, 130, 246, 0.5); }
+}
+.logo-subtitle {
+color: var(--text-secondary);
+font-size: 1.1rem;
+font-weight: 300;
+}
+.form-group {
+margin-bottom: 24px;
+text-align: left;
+}
+.form-label {
+display: block;
+margin-bottom: 8px;
+color: var(--text-primary);
+font-weight: 500;
+font-size: 0.9rem;
+}
+.form-input {
+width: 100%;
+padding: 16px 20px;
+background: rgba(255, 255, 255, 0.05);
+border: 1px solid var(--glass-border);
+border-radius: 12px;
+color: var(--text-primary);
+font-size: 1rem;
+transition: all 0.3s ease;
+backdrop-filter: blur(10px);
+}
+.form-input:focus {
+outline: none;
+border-color: var(--primary-purple);
+box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2), var(--neon-glow);
+background: rgba(255, 255, 255, 0.1);
+}
+.form-input::placeholder {
+color: var(--text-secondary);
+}
+.btn-primary {
+width: 100%;
+padding: 16px;
+background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue));
+border: none;
+border-radius: 12px;
+color: var(--text-primary);
+font-weight: 600;
+font-size: 1rem;
+cursor: pointer;
+transition: all 0.3s ease;
+position: relative;
+overflow: hidden;
+box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+}
+.btn-primary:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 30px rgba(139, 92, 246, 0.5);
+}
+.btn-primary::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+transition: left 0.5s;
+}
+.btn-primary:hover::before {
+left: 100%;
+}
+.auth-switch {
+margin-top: 32px;
+color: var(--text-secondary);
+font-size: 0.9rem;
+}
+.auth-link {
+color: var(--primary-purple);
+text-decoration: none;
+font-weight: 600;
+transition: color 0.3s ease;
+text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+cursor: pointer;
+}
+.auth-link:hover {
+color: var(--accent-pink);
+text-shadow: 0 0 10px rgba(236, 72, 153, 0.7);
+}
+/* ===== MAIN APP INTERFACE ===== */
+.main-app {
+display: none;
+position: relative;
+z-index: 10;
+min-height: 100vh;
+}
+.app-header {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+z-index: 100;
+background: rgba(11, 13, 23, 0.9);
+backdrop-filter: blur(20px);
+border-bottom: 1px solid var(--glass-border);
+padding: 16px 24px;
+}
+.header-content {
+max-width: 1400px;
+margin: 0 auto;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.app-logo {
+font-family: 'Space Grotesk', sans-serif;
+font-size: 1.8rem;
+font-weight: 700;
+color: var(--text-primary);
+text-shadow: 0 0 15px rgba(139, 92, 246, 0.7);
+}
+.header-right {
+display: flex;
+align-items: center;
+gap: 20px;
+}
+.user-stats {
+display: flex;
+align-items: center;
+gap: 16px;
+font-size: 0.9rem;
+color: var(--text-secondary);
+}
+.streak-display {
+display: flex;
+align-items: center;
+gap: 6px;
+padding: 6px 12px;
+background: rgba(139, 92, 246, 0.2);
+border-radius: 20px;
+color: var(--primary-purple);
+font-weight: 600;
+}
+.btn-logout {
+padding: 8px 16px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--glass-border);
+border-radius: 8px;
+color: var(--text-primary);
+font-size: 0.85rem;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.btn-logout:hover {
+background: rgba(255, 255, 255, 0.2);
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+/* ===== MAIN CONTENT ===== */
+.main-content {
+max-width: 1400px;
+margin: 0 auto;
+padding: 100px 24px 24px;
+display: grid;
+grid-template-columns: 1fr 400px;
+gap: 24px;
+min-height: 100vh;
+}
+.chat-section {
+display: flex;
+flex-direction: column;
+}
+.sidebar {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+/* ===== CHAT INTERFACE ===== */
+.chat-header {
+text-align: center;
+margin-bottom: 24px;
+}
+.chat-title {
+font-family: 'Space Grotesk', sans-serif;
+font-size: 2.2rem;
+font-weight: 700;
+color: var(--text-primary);
+margin-bottom: 8px;
+text-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+}
+.chat-subtitle {
+color: var(--text-secondary);
+font-size: 1.1rem;
+font-weight: 300;
+}
+.chat-container {
+background: var(--glass-bg);
+backdrop-filter: blur(25px);
+border: 1px solid var(--glass-border);
+border-radius: 20px;
+height: 500px;
+display: flex;
+flex-direction: column;
+overflow: hidden;
+box-shadow: var(--neon-glow);
+position: relative;
+}
+.chat-messages {
+flex: 1;
+overflow-y: auto;
+padding: 20px;
+scrollbar-width: thin;
+scrollbar-color: var(--primary-purple) transparent;
+}
+.chat-messages::-webkit-scrollbar {
+width: 8px;
+}
+.chat-messages::-webkit-scrollbar-track {
+background: rgba(0, 0, 0, 0.2);
+border-radius: 10px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue));
+border-radius: 10px;
+}
+.message {
+margin-bottom: 20px;
+padding: 16px 20px;
+border-radius: 16px;
+max-width: 85%;
+position: relative;
+animation: messageSlide 0.5s ease-out;
+}
+@keyframes messageSlide {
+from {
+opacity: 0;
+transform: translateY(30px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+.message.user {
+background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue));
+color: var(--text-primary);
+margin-left: auto;
+border-bottom-right-radius: 6px;
+box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+}
+.message.bot {
+background: rgba(255, 255, 255, 0.05);
+border: 1px solid var(--glass-border);
+color: var(--text-primary);
+border-bottom-left-radius: 6px;
+backdrop-filter: blur(10px);
+}
+.message-header {
+font-weight: 600;
+margin-bottom: 8px;
+font-size: 0.9rem;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.message-content {
+line-height: 1.6;
+margin-bottom: 12px;
+}
+.message-meta {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 12px;
+font-size: 0.75rem;
+color: var(--text-secondary);
+border-top: 1px solid rgba(255, 255, 255, 0.1);
+padding-top: 8px;
+flex-wrap: wrap;
+}
+.pdf-sources {
+display: flex;
+flex-wrap: wrap;
+gap: 4px;
+margin-top: 4px;
+}
+.pdf-source-tag {
+background: rgba(59, 130, 246, 0.2);
+color: var(--secondary-blue);
+padding: 2px 6px;
+border-radius: 8px;
+font-size: 0.65rem;
+}
+.accuracy-badge {
+display: inline-flex;
+align-items: center;
+gap: 4px;
+padding: 4px 8px;
+border-radius: 12px;
+font-size: 0.7rem;
+font-weight: 600;
+}
+.accuracy-high {
+background: rgba(16, 185, 129, 0.2);
+color: #10B981;
+}
+.accuracy-medium {
+background: rgba(245, 158, 11, 0.2);
+color: #F59E0B;
+}
+.accuracy-low {
+background: rgba(239, 68, 68, 0.2);
+color: #EF4444;
+}
+/* ===== ENHANCED INPUT SYSTEM ===== */
+.chat-input-container {
+padding: 20px;
+border-top: 1px solid var(--glass-border);
+background: rgba(0, 0, 0, 0.2);
+}
+.input-controls {
+display: flex;
+gap: 12px;
+margin-bottom: 16px;
+flex-wrap: wrap;
+}
+.mode-selector, .length-selector {
+display: flex;
+background: rgba(0, 0, 0, 0.3);
+border-radius: 12px;
+padding: 4px;
+gap: 4px;
+}
+.mode-btn, .length-btn {
+padding: 8px 12px;
+background: transparent;
+border: none;
+border-radius: 8px;
+color: var(--text-secondary);
+font-size: 0.8rem;
+font-weight: 500;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.mode-btn.active, .length-btn.active {
+background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue));
+color: var(--text-primary);
+box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+.difficulty-selector {
+margin-bottom: 8px;
+}
+.difficulty-selector label {
+font-weight: 600;
+color: #fff;
+font-size: 0.85rem;
+}
+.difficulty-selector input[type="range"] {
+width: 100%;
+margin-top: 4px;
+}
+.chat-input-wrapper {
+position: relative;
+}
+.chat-input {
+width: 100%;
+padding: 16px 60px 16px 20px;
+background: rgba(255, 255, 255, 0.05);
+border: 1px solid var(--glass-border);
+border-radius: 16px;
+color: var(--text-primary);
+font-size: 1rem;
+resize: none;
+min-height: 60px;
+max-height: 120px;
+transition: all 0.3s ease;
+backdrop-filter: blur(10px);
+}
+.chat-input:focus {
+outline: none;
+border-color: var(--primary-purple);
+box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+background: rgba(255, 255, 255, 0.08);
+}
+.send-btn {
+position: absolute;
+right: 8px;
+top: 50%;
+transform: translateY(-50%);
+width: 44px;
+height: 44px;
+background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue));
+border: none;
+border-radius: 12px;
+color: var(--text-primary);
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.3s ease;
+box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+.send-btn:hover {
+transform: translateY(-50%) scale(1.05);
+box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+}
+/* ===== SIDEBAR CARDS ===== */
+.sidebar-card {
+background: var(--glass-bg);
+backdrop-filter: blur(25px);
+border: 1px solid var(--glass-border);
+border-radius: 16px;
+padding: 20px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+position: relative;
+overflow: hidden;
+}
+.sidebar-card::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 2px;
+background: linear-gradient(90deg, var(--primary-purple), var(--secondary-blue), var(--accent-pink));
+}
+.card-title {
+font-family: 'Space Grotesk', sans-serif;
+font-size: 1.2rem;
+font-weight: 600;
+color: var(--text-primary);
+margin-bottom: 16px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+/* ===== SUBJECT TABS ===== */
+.subject-tabs {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+margin-bottom: 16px;
+}
+.subject-tab {
+padding: 8px 16px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--glass-border);
+border-radius: 20px;
+color: var(--text-secondary);
+font-size: 0.85rem;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.subject-tab.active {
+background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue));
+color: var(--text-primary);
+box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+.subject-tab:hover:not(.active) {
+background: rgba(255, 255, 255, 0.15);
+}
+/* ===== PDF MANAGEMENT ===== */
+.pdf-list {
+max-height: 200px;
+overflow-y: auto;
+margin-bottom: 16px;
+}
+.pdf-item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 8px 12px;
+background: rgba(255, 255, 255, 0.05);
+border-radius: 8px;
+margin-bottom: 8px;
+font-size: 0.8rem;
+}
+.pdf-name {
+flex: 1;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+margin-right: 8px;
+}
+.pdf-actions {
+display: flex;
+gap: 4px;
+}
+.pdf-btn {
+padding: 4px 8px;
+background: rgba(139, 92, 246, 0.2);
+border: none;
+border-radius: 6px;
+color: var(--primary-purple);
+font-size: 0.7rem;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.pdf-btn:hover {
+background: rgba(139, 92, 246, 0.3);
+}
+/* ===== FLASHCARD SYSTEM ===== */
+.flashcard-container {
+position: relative;
+height: 200px;
+perspective: 1000px;
+margin-bottom: 16px;
+}
+.flashcard {
+width: 100%;
+height: 100%;
+position: relative;
+transform-style: preserve-3d;
+transition: transform 0.6s;
+cursor: pointer;
+}
+.flashcard.flipped {
+transform: rotateY(180deg);
+}
+.flashcard-side {
+position: absolute;
+width: 100%;
+height: 100%;
+backface-visibility: hidden;
+background: rgba(255, 255, 255, 0.05);
+border: 1px solid var(--glass-border);
+border-radius: 12px;
+padding: 16px;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+.flashcard-back {
+transform: rotateY(180deg);
+background: rgba(139, 92, 246, 0.1);
+}
+.flashcard-controls {
+display: flex;
+gap: 8px;
+justify-content: center;
+margin-bottom: 16px;
+}
+.flashcard-btn {
+padding: 6px 12px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--glass-border);
+border-radius: 8px;
+color: var(--text-primary);
+font-size: 0.8rem;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.flashcard-btn:hover {
+background: rgba(255, 255, 255, 0.2);
+}
+.flashcard-btn.correct {
+background: rgba(16, 185, 129, 0.2);
+color: var(--success-green);
+}
+.flashcard-btn.incorrect {
+background: rgba(239, 68, 68, 0.2);
+color: var(--error-red);
+}
+/* ===== ANALYTICS DASHBOARD ===== */
+.analytics-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+margin-bottom: 16px;
+}
+.stat-item {
+text-align: center;
+padding: 12px;
+background: rgba(255, 255, 255, 0.05);
+border-radius: 12px;
+border: 1px solid var(--glass-border);
+}
+.stat-value {
+font-size: 1.5rem;
+font-weight: 700;
+color: var(--primary-purple);
+}
+.stat-label {
+font-size: 0.75rem;
+color: var(--text-secondary);
+margin-top: 4px;
+}
+.progress-bar {
+width: 100%;
+height: 6px;
+background: rgba(255, 255, 255, 0.1);
+border-radius: 3px;
+overflow: hidden;
+margin-top: 8px;
+}
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, var(--primary-purple), var(--secondary-blue));
+border-radius: 3px;
+transition: width 0.3s ease;
+}
+.bloom-item {
+font-size: 0.8rem;
+color: var(--text-secondary);
+margin-bottom: 8px;
+}
+/* ===== POMODORO TIMER ===== */
+.pomodoro-display {
+text-align: center;
+margin-bottom: 16px;
+}
+.timer-display {
+font-size: 2rem;
+font-weight: 700;
+color: var(--text-primary);
+margin-bottom: 12px;
+font-family: 'Space Grotesk', sans-serif;
+}
+.timer-controls {
+display: flex;
+gap: 8px;
+justify-content: center;
+}
+.timer-btn {
+padding: 6px 12px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid var(--glass-border);
+border-radius: 8px;
+color: var(--text-primary);
+font-size: 0.8rem;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+.timer-btn:hover {
+background: rgba(255, 255, 255, 0.2);
+}
+.timer-btn.active {
+background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue));
+}
+/* ===== LOADING STATES ===== */
+.loading {
+display: none;
+text-align: center;
+padding: 20px;
+color: var(--text-secondary);
+}
+.loading-animation {
+display: inline-block;
+width: 20px;
+height: 20px;
+border: 2px solid var(--text-secondary);
+border-radius: 50%;
+border-top-color: var(--primary-purple);
+animation: spin 1s linear infinite;
+margin-right: 8px;
+}
+@keyframes spin {
+from { transform: rotate(0deg); }
+to { transform: rotate(360deg); }
+}
+/* ===== MODAL SYSTEM ===== */
+.modal-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.7);
+backdrop-filter: blur(10px);
+z-index: 1000;
+display: none;
+align-items: center;
+justify-content: center;
+}
+.modal {
+background: var(--glass-bg);
+border: 1px solid var(--glass-border);
+border-radius: 20px;
+padding: 32px;
+max-width: 500px;
+width: 90%;
+max-height: 80vh;
+overflow-y: auto;
+box-shadow: var(--neon-glow);
+}
+.modal-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 24px;
+}
+.modal-title {
+font-family: 'Space Grotesk', sans-serif;
+font-size: 1.5rem;
+font-weight: 600;
+color: var(--text-primary);
+}
+.close-modal {
+background: none;
+border: none;
+font-size: 1.5rem;
+color: var(--text-secondary);
+cursor: pointer;
+}
+.close-modal:hover {
+color: var(--text-primary);
+}
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1200px) {
+.main-content {
+grid-template-columns: 1fr;
+gap: 20px;
+}
+.sidebar {
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+display: grid;
+}
+}
+@media (max-width: 768px) {
+.main-content {
+padding: 80px 16px 16px;
+}
+.auth-container {
+padding: 32px 24px;
+margin: 16px;
+}
+.logo-title {
+font-size: 2.5rem;
+}
+.chat-title {
+font-size: 1.8rem;
+}
+.header-content {
+padding: 0 16px;
+}
+.user-stats {
+display: none;
+}
+.input-controls {
+flex-direction: column;
+}
+.message {
+max-width: 95%;
+}
+}
+@media (max-width: 480px) {
+.logo-title {
+font-size: 2rem;
+}
+.chat-title {
+font-size: 1.5rem;
+}
+.analytics-grid {
+grid-template-columns: 1fr;
+}
+.subject-tabs {
+justify-content: center;
+}
+}
+/* ===== HIDDEN UTILITY ===== */
+.hidden {
+display: none !important;
+}
+/* ===== NOTIFICATION SYSTEM ===== */
+.notification {
+position: fixed;
+top: 20px;
+right: 20px;
+z-index: 10000;
+padding: 16px 20px;
+border-radius: 12px;
+color: white;
+font-weight: 500;
+max-width: 350px;
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+animation: slideInRight 0.3s ease-out;
+}
+@keyframes slideInRight {
+from {
+transform: translateX(100%);
+opacity: 0;
+}
+to {
+transform: translateX(0);
+opacity: 1;
+}
+}
+.notification.success {
+background: rgba(16, 185, 129, 0.9);
+}
+.notification.error {
+background: rgba(239, 68, 68, 0.9);
+}
+.notification.info {
+background: rgba(139, 92, 246, 0.9);
+}
+</style>
+</head>
+<body>
+
+<!-- EPIC GALAXY BACKGROUND -->
+<div class="galaxy-container">
+<div class="galaxy-bg"></div>
+<div class="rotating-galaxy"></div>
+<div class="cosmic-dust"></div>
+<div class="stars-layer" id="starsLayer"></div>
+</div>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="auth-page">
+<div class="auth-container">
+<div class="logo-section">
+<h1 class="logo-title">PhenBOT</h1>
+<p class="logo-subtitle">Your AI Study Companion</p>
+</div>
+<form id="loginForm">
+<div class="form-group">
+<label class="form-label" for="loginEmail">Email</label>
+<input type="email" id="loginEmail" class="form-input" placeholder="Enter your email" required>
+</div>
+<div class="form-group">
+<label class="form-label" for="loginPassword">Password</label>
+<input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
+</div>
+<button type="submit" class="btn-primary">Launch into Learning 🚀</button>
+</form>
+<p class="auth-switch">
+New to PhenBot?
+<a href="#" class="auth-link" onclick="showRegister()">Sign Up Now!</a>
+</p>
+</div>
+</div>
+
+<!-- REGISTER PAGE -->
+<div id="registerPage" class="auth-page hidden">
+<div class="auth-container">
+<div class="logo-section">
+<h1 class="logo-title">Join PhenBOT</h1>
+<p class="logo-subtitle">Begin your learning journey</p>
+</div>
+<form id="registerForm">
+<div class="form-group">
+<label class="form-label" for="registerUsername">UserName</label>
+<input type="text" id="registerUsername" class="form-input" placeholder="Choose your Username" required>
+</div>
+<div class="form-group">
+<label class="form-label" for="registerEmail">Email</label>
+<input type="email" id="registerEmail" class="form-input" placeholder="Your email ID" required>
+</div>
+<div class="form-group">
+<label class="form-label" for="registerPassword">Secret Code</label>
+<input type="password" id="registerPassword" class="form-input" placeholder="Create a strong password" required minlength="6">
+</div>
+<button type="submit" class="btn-primary">Create Account 🌌</button>
+</form>
+<p class="auth-switch">
+Already exploring?
+<a href="#" class="auth-link" onclick="showLogin()">Return to base</a>
+</p>
+</div>
+</div>
+
+<!-- MAIN APPLICATION -->
+<div id="mainApp" class="main-app">
+<header class="app-header">
+<div class="header-content">
+<div class="app-logo">PhenBOT 🌌</div>
+<div class="header-right">
+<div class="user-stats">
+<div class="streak-display">
+<span>🔥</span>
+<span id="streakCount">0</span>
+<span>day streak</span>
+</div>
+<span id="userInfo">Welcome, Explorer!</span>
+</div>
+<button class="btn-logout" onclick="logout()">Exit</button>
+</div>
+</div>
+</header>
+
+<main class="main-content">
+<section class="chat-section">
+<div class="chat-header">
+<h1 class="chat-title">Your Personalised Study Companion</h1>
+<p class="chat-subtitle">Explore knowledge at your fingertips with AI-powered learning</p>
+</div>
+<div class="chat-container">
+<div class="chat-messages" id="chatMessages">
+<div class="message bot">
+<div class="message-header">
+<span>🤖</span>
+<span>PhenBOT</span>
+</div>
+<div class="message-content">
+Welcome to the cosmos of knowledge! I'm your AI study companion, ready to help you explore any subject. Upload study materials, ask questions, and let's embark on this learning journey together! ✨
+</div>
+<div class="message-meta">
+<span>AI Assistant</span>
+<div class="accuracy-badge accuracy-high">
+<span>✓</span>
+<span>System Message</span>
+</div>
+</div>
+</div>
+</div>
+<div class="loading" id="loading">
+<div class="loading-animation"></div>
+<span>Thinking….<span id="loadingDots">...</span></span>
+</div>
+<div class="chat-input-container">
+<div class="input-controls">
+<div class="mode-selector">
+<button class="mode-btn active" data-mode="normal">Normal</button>
+<button class="mode-btn" data-mode="analogy">Analogy</button>
+<button class="mode-btn" data-mode="quiz">Quiz</button>
+<button class="mode-btn" data-mode="reverse">Teach Bot</button>
+</div>
+<div class="length-selector">
+<button class="length-btn" data-length="short">Short</button>
+<button class="length-btn active" data-length="medium">Medium</button>
+<button class="length-btn" data-length="long">Detailed</button>
+</div>
+</div>
+<div class="chat-input-wrapper">
+<div class="difficulty-selector">
+<label for="difficultyRange">Difficulty: <span id="difficultyValue">5</span></label>
+<input type="range" id="difficultyRange" min="1" max="10" value="5">
+</div>
+<textarea 
+class="chat-input" 
+id="chatInput" 
+placeholder="Ask me anything" 
+rows="1"></textarea>
+<button class="send-btn" onclick="sendMessage()">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+<line x1="22" y1="2" x2="11" y2="13"></line>
+<polygon points="22,2 15,22 11,13 2,9"></polygon>
+</svg>
+</button>
+</div>
+</div>
+</div>
+</section>
+
+<aside class="sidebar">
+<!-- Subject Navigation -->
+<div class="sidebar-card">
+<h3 class="card-title">
+<span>📚</span>
+<span>Study Subjects</span>
+</h3>
+<div class="subject-tabs" id="subjectTabs">
+<button class="subject-tab active" data-subject="">All Subjects</button>
+<button class="subject-tab" data-subject="math">Mathematics</button>
+<button class="subject-tab" data-subject="science">Science</button>
+<button class="subject-tab" data-subject="programming">Programming</button>
+<button class="subject-tab" data-subject="physics">Physics</button>
+<button class="subject-tab" data-subject="chemistry">Chemistry</button>
+<button class="subject-tab" data-subject="biology">Biology</button>
+<button class="subject-tab" data-subject="history">History</button>
+<button class="subject-tab" data-subject="literature">Literature</button>
+</div>
+</div>
+
+<!-- PDF Management -->
+<div class="sidebar-card">
+<h3 class="card-title">
+<span>📄</span>
+<span>Study Materials</span>
+</h3>
+<div class="pdf-list" id="pdfList">
+<div style="text-align: center; color: var(--text-secondary); font-size: 0.8rem; padding: 20px;">
+No PDFs uploaded yet
+</div>
+</div>
+<div style="display: flex; gap: 8px;">
+<button class="timer-btn" onclick="uploadPDF()" style="flex: 1;">📄 Upload PDF</button>
+<button class="timer-btn" onclick="generateFlashcardsFromPDF()" style="flex: 1;">🧠 AI Cards</button>
+</div>
+</div>
+
+<!-- Flashcards -->
+<div class="sidebar-card">
+<h3 class="card-title">
+<span>🃏</span>
+<span>Flashcards</span>
+</h3>
+<div class="flashcard-container" id="flashcardContainer">
+<div class="flashcard" id="currentFlashcard" onclick="flipFlashcard()">
+<div class="flashcard-side">
+<div id="flashcardQuestion">Create your first flashcard!</div>
+</div>
+<div class="flashcard-side flashcard-back">
+<div id="flashcardAnswer">Click "Create Card" to get started</div>
+</div>
+</div>
+</div>
+<div class="flashcard-controls">
+<button class="flashcard-btn" onclick="createFlashcard()">Create Card</button>
+<button class="flashcard-btn" onclick="previousFlashcard()">←</button>
+<button class="flashcard-btn" onclick="nextFlashcard()">→</button>
+</div>
+<div style="text-align: center; font-size: 0.8rem; color: var(--text-secondary);">
+<span id="flashcardCount">0 / 0</span> • <span id="flashcardType">User Made</span>
+</div>
+</div>
+
+<!-- Learning Analytics -->
+<div class="sidebar-card">
+<h3 class="card-title">
+<span>📊</span>
+<span>Learning Analytics</span>
+</h3>
+<div class="analytics-grid">
+<div class="stat-item">
+<div class="stat-value" id="questionsAsked">0</div>
+<div class="stat-label">Questions Asked</div>
+</div>
+<div class="stat-item">
+<div class="stat-value" id="conceptsLearned">0</div>
+<div class="stat-label">Concepts Learned</div>
+</div>
+<div class="stat-item">
+<div class="stat-value" id="studyTime">0h</div>
+<div class="stat-label">Study Time</div>
+</div>
+<div class="stat-item">
+<div class="stat-value" id="accuracyScore">0%</div>
+<div class="stat-label">Avg Accuracy</div>
+</div>
+</div>
+<div style="margin-top: 16px;">
+<div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+<span style="font-size: 0.8rem; color: var(--text-secondary);">Learning Progress</span>
+<span style="font-size: 0.8rem; color: var(--primary-purple);" id="progressPercent">0%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill" id="progressFill" style="width: 0%"></div>
+</div>
+</div>
+</div>
+
+<!-- Pomodoro Timer -->
+<div class="sidebar-card">
+<h3 class="card-title">
+<span>⏰</span>
+<span>Focus Timer</span>
+</h3>
+<div class="pomodoro-display">
+<div class="timer-display" id="timerDisplay">25:00</div>
+<div class="timer-controls">
+<button class="timer-btn" id="startTimer">Start</button>
+<button class="timer-btn" id="pauseTimer">Pause</button>
+<button class="timer-btn" id="resetTimer">Reset</button>
+</div>
+</div>
+<div style="margin-top: 12px; text-align: center; font-size: 0.8rem; color: var(--text-secondary);">
+<div>Focus sessions completed: <span id="focusSessions">0</span></div>
+</div>
+</div>
+
+<!-- Bloom's Taxonomy Tracker -->
+<div class="sidebar-card">
+<h3 class="card-title">
+<span>🎯</span>
+<span>Skill Development</span>
+</h3>
+<div id="bloomsChart">
+<div class="bloom-item">
+<span>Remember</span>
+<div class="progress-bar" style="height: 4px;">
+<div class="progress-fill" style="width: 0%;" id="rememberProgress"></div>
+</div>
+</div>
+<div class="bloom-item">
+<span>Understand</span>
+<div class="progress-bar" style="height: 4px;">
+<div class="progress-fill" style="width: 0%;" id="understandProgress"></div>
+</div>
+</div>
+<div class="bloom-item">
+<span>Apply</span>
+<div class="progress-bar" style="height: 4px;">
+<div class="progress-fill" style="width: 0%;" id="applyProgress"></div>
+</div>
+</div>
+<div class="bloom-item">
+<span>Analyze</span>
+<div class="progress-bar" style="height: 4px;">
+<div class="progress-fill" style="width: 0%;" id="analyzeProgress"></div>
+</div>
+</div>
+<div class="bloom-item">
+<span>Evaluate</span>
+<div class="progress-bar" style="height: 4px;">
+<div class="progress-fill" style="width: 0%;" id="evaluateProgress"></div>
+</div>
+</div>
+<div class="bloom-item">
+<span>Create</span>
+<div class="progress-bar" style="height: 4px;">
+<div class="progress-fill" style="width: 0%;" id="createProgress"></div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</div>
+
+<!-- PDF Upload Modal -->
+<div class="modal-overlay" id="pdfModal">
+<div class="modal">
+<div class="modal-header">
+<h2 class="modal-title">Upload Study Material</h2>
+<button class="close-modal" onclick="closePDFModal()">&times;</button>
+</div>
+<div style="margin-bottom: 20px;">
+<input type="file" id="pdfFileInput" accept=".pdf" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-primary);">
+</div>
+<div style="display: flex; gap: 12px; justify-content: flex-end;">
+<button class="timer-btn" onclick="closePDFModal()">Cancel</button>
+<button class="timer-btn" onclick="uploadPDFFile()" style="background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue)); color: var(--text-primary);">Upload</button>
+</div>
+</div>
+</div>
+
+<!-- Flashcard Creation Modal -->
+<div class="modal-overlay" id="flashcardModal">
+<div class="modal">
+<div class="modal-header">
+<h2 class="modal-title">Create Flashcard</h2>
+<button class="close-modal" onclick="closeFlashcardModal()">&times;</button>
+</div>
+<div style="margin-bottom: 16px;">
+<label style="display: block; margin-bottom: 8px; font-weight: 500;">Question:</label>
+<textarea id="flashcardQuestionInput" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-primary); resize: vertical; min-height: 60px;" placeholder="Enter your question..."></textarea>
+</div>
+<div style="margin-bottom: 16px;">
+<label style="display: block; margin-bottom: 8px; font-weight: 500;">Answer:</label>
+<textarea id="flashcardAnswerInput" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-primary); resize: vertical; min-height: 60px;" placeholder="Enter the answer..."></textarea>
+</div>
+<div style="margin-bottom: 20px;">
+<label style="display: block; margin-bottom: 8px; font-weight: 500;">Subject:</label>
+<select id="flashcardSubjectInput" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-primary);">
+<option value="general">General</option>
+<option value="math">Mathematics</option>
+<option value="science">Science</option>
+<option value="programming">Programming</option>
+<option value="physics">Physics</option>
+<option value="chemistry">Chemistry</option>
+<option value="biology">Biology</option>
+<option value="history">History</option>
+<option value="literature">Literature</option>
+</select>
+</div>
+<div style="display: flex; gap: 12px; justify-content: flex-end;">
+<button class="timer-btn" onclick="closeFlashcardModal()">Cancel</button>
+<button class="timer-btn" onclick="saveFlashcard()" style="background: linear-gradient(135deg, var(--primary-purple), var(--secondary-blue)); color: var(--text-primary);">Save Card</button>
+</div>
+</div>
+</div>
+
+<input type="file" id="pdfUpload" accept=".pdf" style="display: none;">
+
+<script>
+// ===== GALAXY ANIMATION SYSTEM =====
+function createGalaxyAnimation() {
+const starsLayer = document.getElementById('starsLayer');
+const numStars = 200;
+const shootingStarInterval = 3000;
+
+// Create static stars
+for (let i = 0; i < numStars; i++) {
+const star = document.createElement('div');
+star.className = 'star';
+star.style.left = Math.random() * 100 + '%';
+star.style.top = Math.random() * 100 + '%';
+
+const size = Math.random();
+if (size > 0.8) {
+star.classList.add('giant');
+if (Math.random() > 0.7) {
+star.classList.add(Math.random() > 0.5 ? 'purple' : 'blue');
+}
+} else if (size > 0.6) {
+star.classList.add('large');
+if (Math.random() > 0.8) {
+star.classList.add(Math.random() > 0.5 ? 'blue' : 'pink');
+}
+} else if (size > 0.3) {
+star.classList.add('medium');
+} else {
+star.classList.add('small');
+}
+
+star.style.animationDelay = Math.random() * 3 + 's';
+starsLayer.appendChild(star);
+}
+
+// Create shooting stars
+setInterval(createShootingStar, shootingStarInterval + Math.random() * 2000);
+}
+
+function createShootingStar() {
+const shootingStar = document.createElement('div');
+shootingStar.className = 'shooting-star';
+shootingStar.style.left = Math.random() * 100 + '%';
+shootingStar.style.top = Math.random() * 30 + '%';
+shootingStar.style.width = (50 + Math.random() * 100) + 'px';
+shootingStar.style.animationDuration = (2 + Math.random() * 2) + 's';
+
+document.querySelector('.stars-layer').appendChild(shootingStar);
+
+setTimeout(() => {
+if (shootingStar.parentNode) {
+shootingStar.parentNode.removeChild(shootingStar);
+}
+}, 5000);
+}
+
+// ===== APPLICATION STATE =====
+let sessionToken = localStorage.getItem('phenbot_session') || null;
+let currentUser = null;
+let selectedMode = 'normal';
+let selectedLength = 'medium';
+let selectedSubject = '';
+let selectedDifficulty = 5;
+let userPDFs = [];
+let userFlashcards = { userMade: [], aiGenerated: [] };
+let currentFlashcardIndex = 0;
+let currentFlashcardType = 'userMade';
+let userAnalytics = {
+questionsAsked: 0,
+conceptsLearned: [],
+studyTime: 0,
+bloomsLevels: {
+remember: 0,
+understand: 0,
+apply: 0,
+analyze: 0,
+evaluate: 0,
+create: 0
+}
+};
+
+// ===== POMODORO TIMER =====
+let pomodoroTimer = {
+minutes: 25,
+seconds: 0,
+isRunning: false,
+interval: null,
+focusSessions: 0
+};
+
+// ===== INITIALIZATION =====
+document.addEventListener('DOMContentLoaded', function() {
+createGalaxyAnimation();
+if (sessionToken) {
+initMainApp();
+} else {
+showLogin();
+}
+setupEventListeners();
+initializeLoadingDots();
+});
+
+function initializeLoadingDots() {
+setInterval(() => {
+const dots = document.getElementById('loadingDots');
+if (dots) {
+const current = dots.textContent;
+dots.textContent = current.length >= 3 ? '.' : current + '.';
+}
+}, 500);
+}
+
+// ===== EVENT LISTENERS =====
+function setupEventListeners() {
+// Auth forms
+document.getElementById('loginForm').addEventListener('submit', handleLogin);
+document.getElementById('registerForm').addEventListener('submit', handleRegister);
+
+// Chat input
+const chatInput = document.getElementById('chatInput');
+chatInput.addEventListener('keypress', function(e) {
+if (e.key === 'Enter' && !e.shiftKey) {
+e.preventDefault();
+sendMessage();
+}
+});
+chatInput.addEventListener('input', function() {
+this.style.height = 'auto';
+this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+// Difficulty slider
+const difficultyRange = document.getElementById('difficultyRange');
+if (difficultyRange) {
+difficultyRange.addEventListener('input', function() {
+selectedDifficulty = parseInt(this.value);
+const valEl = document.getElementById('difficultyValue');
+if (valEl) valEl.textContent = selectedDifficulty;
+});
+}
+
+// Mode and length selectors
+document.querySelectorAll('.mode-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+this.classList.add('active');
+selectedMode = this.dataset.mode;
+});
+});
+
+document.querySelectorAll('.length-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+document.querySelectorAll('.length-btn').forEach(b => b.classList.remove('active'));
+this.classList.add('active');
+selectedLength = this.dataset.length;
+updateUserPreferences();
+});
+});
+
+// Subject tabs
+document.querySelectorAll('.subject-tab').forEach(tab => {
+tab.addEventListener('click', function() {
+document.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
+this.classList.add('active');
+selectedSubject = this.dataset.subject;
+});
+});
+
+// Timer controls
+document.getElementById('startTimer').addEventListener('click', startPomodoro);
+document.getElementById('pauseTimer').addEventListener('click', pausePomodoro);
+document.getElementById('resetTimer').addEventListener('click', resetPomodoro);
+
+// PDF upload
+document.getElementById('pdfUpload').addEventListener('change', handlePDFUpload);
+}
+
+// ===== AUTHENTICATION =====
+async function handleLogin(e) {
+e.preventDefault();
+const email = document.getElementById('loginEmail').value;
+const password = document.getElementById('loginPassword').value;
+
+try {
+const response = await fetch('/login', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ email, password })
+});
+const data = await response.json();
+
+if (data.success) {
+sessionToken = data.sessionToken;
+currentUser = {
+username: data.username,
+userId: data.userId,
+preferences: data.preferences,
+analytics: data.analytics
+};
+localStorage.setItem('phenbot_session', sessionToken);
+showNotification(`Welcome back to the cosmos, ${data.username}!`, 'success');
+initMainApp();
+} else {
+showNotification(data.error, 'error');
+}
+} catch (error) {
+showNotification('Connection failed. Please try again.', 'error');
+}
+}
+
+async function handleRegister(e) {
+e.preventDefault();
+const username = document.getElementById('registerUsername').value;
+const email = document.getElementById('registerEmail').value;
+const password = document.getElementById('registerPassword').value;
+
+if (password.length < 6) {
+showNotification('Password must be at least 6 characters long', 'error');
+return;
+}
+
+try {
+const response = await fetch('/register', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ username, email, password })
+});
+const data = await response.json();
+
+if (data.success) {
+showNotification('Your account is created! Welcome to PhenBot!', 'success');
+showLogin();
+document.getElementById('loginEmail').value = email;
+} else {
+showNotification(data.error, 'error');
+}
+} catch (error) {
+showNotification('Registration failed. Please try again.', 'error');
+}
+}
+
+async function logout() {
+try {
+await fetch('/logout', {
+method: 'POST',
+headers: { 'Authorization': `Bearer ${sessionToken}` }
+});
+} catch (error) {
+console.warn('Logout request failed:', error);
+}
+sessionToken = null;
+currentUser = null;
+localStorage.removeItem('phenbot_session');
+showNotification('Success!!');
+showLogin();
+}
+
+// ===== PAGE NAVIGATION =====
+function showLogin() {
+document.getElementById('loginPage').classList.remove('hidden');
+document.getElementById('registerPage').classList.add('hidden');
+document.getElementById('mainApp').style.display = 'none';
+}
+
+function showRegister() {
+document.getElementById('loginPage').classList.add('hidden');
+document.getElementById('registerPage').classList.remove('hidden');
+document.getElementById('mainApp').style.display = 'none';
+}
+
+async function initMainApp() {
+document.getElementById('loginPage').classList.add('hidden');
+document.getElementById('registerPage').classList.add('hidden');
+document.getElementById('mainApp').style.display = 'block';
+
+if (currentUser) {
+document.getElementById('userInfo').textContent = `Welcome, ${currentUser.username}!`;
+document.getElementById('streakCount').textContent = currentUser.preferences?.studyStreak || 0;
+
+if (currentUser.analytics) {
+updateAnalyticsDisplay(currentUser.analytics);
+}
+}
+
+// Load user data
+await loadUserPDFs();
+await loadUserFlashcards();
+await loadUserAnalytics();
+}
+
+// ===== PDF MANAGEMENT =====
+async function loadUserPDFs() {
+try {
+const response = await fetch('/user-pdfs', {
+method: 'GET',
+headers: { 'Authorization': `Bearer ${sessionToken}` }
+});
+const data = await response.json();
+
+if (data.success) {
+userPDFs = data.pdfs;
+updatePDFList();
+}
+} catch (error) {
+console.warn('Failed to load PDFs:', error);
+}
+}
+
+function updatePDFList() {
+const pdfList = document.getElementById('pdfList');
+
+if (userPDFs.length === 0) {
+pdfList.innerHTML = '<div style="text-align: center; color: var(--text-secondary); font-size: 0.8rem; padding: 20px;">No PDFs uploaded yet</div>';
+return;
+}
+
+pdfList.innerHTML = userPDFs.map(pdf => `
+<div class="pdf-item">
+<div class="pdf-name" title="${pdf.originalName}">${pdf.originalName}</div>
+<div class="pdf-actions">
+<button class="pdf-btn" onclick="generateFlashcardsFromSpecificPDF('${pdf.id}')">Cards</button>
+<button class="pdf-btn" onclick="removePDF('${pdf.id}')">×</button>
+</div>
+</div>
+`).join('');
+}
+
+function uploadPDF() {
+document.getElementById('pdfModal').style.display = 'flex';
+}
+
+function closePDFModal() {
+    document.getElementById('pdfModal').style.display = 'none';
+    document.getElementById('pdfFileInput').value = '';
+}
+
+async function uploadPDFFile() {
+    const fileInput = document.getElementById('pdfFileInput');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        showNotification('Please select a PDF file', 'error');
+        return;
+    }
+
+    if (file.type !== 'application/pdf') {
+        showNotification('Please select a valid PDF file', 'error');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('pdf', file);
+    formData.append('userId', currentUser.userId);
+
+    try {
+        showNotification('Processing your document...', 'info');
+        closePDFModal();
+
+        const response = await fetch('/upload.pdf', {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${sessionToken}` },
+            body: formData
+        });
+        
+        const data = await response.json();
+
+        if (data.success) {
+            showNotification(`${file.name} uploaded successfully!`, 'success');
+            
+            // FIX: Add these lines to refresh the PDF list
+            await loadUserPDFs(); // This was missing!
+            
+            // Optional: Show additional success info
+            console.log('PDF processed:', data);
+            
+        } else {
+            showNotification(data.error || 'PDF upload failed', 'error');
+        }
+    } catch (error) {
+        console.error('PDF upload error:', error);
+        showNotification('PDF upload failed. Please try again.', 'error');
+    }
+}
+
+
+async function debugPDFList() {
+    try {
+        const response = await fetch('/user-pdfs', {
+            headers: { 'Authorization': `Bearer ${sessionToken}` }
+        });
+        const data = await response.json();
+        console.log('Current PDFs:', data);
+    } catch (error) {
+        console.error('Debug error:', error);
+    }
+}
+
+// Call this after upload to see if PDFs are being saved
+
+
+
+// ===== FLASHCARD MANAGEMENT =====
+async function loadUserFlashcards() {
+try {
+const response = await fetch('/flashcards', {
+method: 'GET',
+headers: { 'Authorization': `Bearer ${sessionToken}` }
+});
+const data = await response.json();
+
+if (data.success) {
+userFlashcards = data.flashcards;
+updateFlashcardDisplay();
+}
+} catch (error) {
+console.warn('Failed to load flashcards:', error);
+}
+}
+
+function updateFlashcardDisplay() {
+const totalUserMade = userFlashcards.userMade.length;
+const totalAI = userFlashcards.aiGenerated.length;
+const currentDeck = userFlashcards[currentFlashcardType];
+
+if (currentDeck.length === 0) {
+document.getElementById('flashcardQuestion').textContent = 'No flashcards yet!';
+document.getElementById('flashcardAnswer').textContent = 'Create some flashcards to get started';
+document.getElementById('flashcardCount').textContent = '0 / 0';
+return;
+}
+
+const current = currentDeck[currentFlashcardIndex];
+document.getElementById('flashcardQuestion').textContent = current.question;
+document.getElementById('flashcardAnswer').textContent = current.answer;
+document.getElementById('flashcardCount').textContent = `${currentFlashcardIndex + 1} / ${currentDeck.length}`;
+document.getElementById('flashcardType').textContent = currentFlashcardType === 'userMade' ? 'User Made' : 'AI Generated';
+}
+
+function flipFlashcard() {
+const flashcard = document.getElementById('currentFlashcard');
+flashcard.classList.toggle('flipped');
+}
+
+function nextFlashcard() {
+const currentDeck = userFlashcards[currentFlashcardType];
+if (currentDeck.length === 0) return;
+currentFlashcardIndex = (currentFlashcardIndex + 1) % currentDeck.length;
+updateFlashcardDisplay();
+document.getElementById('currentFlashcard').classList.remove('flipped');
+}
+
+function previousFlashcard() {
+const currentDeck = userFlashcards[currentFlashcardType];
+if (currentDeck.length === 0) return;
+currentFlashcardIndex = currentFlashcardIndex === 0 ? currentDeck.length - 1 : currentFlashcardIndex - 1;
+updateFlashcardDisplay();
+document.getElementById('currentFlashcard').classList.remove('flipped');
+}
+
+function createFlashcard() {
+document.getElementById('flashcardModal').style.display = 'flex';
+}
+
+function closeFlashcardModal() {
+document.getElementById('flashcardModal').style.display = 'none';
+document.getElementById('flashcardQuestionInput').value = '';
+document.getElementById('flashcardAnswerInput').value = '';
+document.getElementById('flashcardSubjectInput').value = 'general';
+}
+
+async function saveFlashcard() {
+const question = document.getElementById('flashcardQuestionInput').value.trim();
+const answer = document.getElementById('flashcardAnswerInput').value.trim();
+const subject = document.getElementById('flashcardSubjectInput').value;
+
+if (!question || !answer) {
+showNotification('Please fill in both question and answer', 'error');
+return;
+}
+
+try {
+const response = await fetch('/create-flashcard', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'Authorization': `Bearer ${sessionToken}`
+},
+body: JSON.stringify({
+question,
+answer,
+subject,
+difficulty: selectedDifficulty
+})
+});
+const data = await response.json();
+
+if (data.success) {
+showNotification('Flashcard created successfully!', 'success');
+closeFlashcardModal();
+await loadUserFlashcards();
+} else {
+showNotification(data.error || 'Failed to create flashcard', 'error');
+}
+} catch (error) {
+console.error('Flashcard creation error:', error);
+showNotification('Failed to create flashcard. Please try again.', 'error');
+}
+}
+
+async function generateFlashcardsFromPDF() {
+if (userPDFs.length === 0) {
+showNotification('Please upload a PDF first', 'error');
+return;
+}
+
+// Use the first PDF for now, or show selection dialog
+const pdfId = userPDFs[0].id;
+await generateFlashcardsFromSpecificPDF(pdfId);
+}
+
+async function generateFlashcardsFromSpecificPDF(pdfId) {
+try {
+showNotification('Generating AI flashcards from your document...', 'info');
+
+const response = await fetch('/generate-ai-flashcards', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'Authorization': `Bearer ${sessionToken}`
+},
+body: JSON.stringify({
+pdfId,
+count: 5
+})
+});
+const data = await response.json();
+
+if (data.success) {
+showNotification(`Generated ${data.cards.length} AI flashcards!`, 'success');
+await loadUserFlashcards();
+// Switch to AI generated cards
+currentFlashcardType = 'aiGenerated';
+currentFlashcardIndex = 0;
+updateFlashcardDisplay();
+} else {
+showNotification(data.error || 'Failed to generate flashcards', 'error');
+}
+} catch (error) {
+console.error('AI flashcard generation error:', error);
+showNotification('Failed to generate flashcards. Please try again.', 'error');
+}
+}
+
+// ===== CHAT SYSTEM =====
+async function sendMessage() {
+const input = document.getElementById('chatInput');
+const message = input.value.trim();
+if (!message) return;
+
+const loading = document.getElementById('loading');
+
+// Add user message
+addMessage('user', message);
+input.value = '';
+input.style.height = 'auto';
+loading.style.display = 'block';
+scrollToBottom();
+
+try {
+const response = await fetch('/ask', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'Authorization': `Bearer ${sessionToken}`
+},
+body: JSON.stringify({
+question: message,
+mode: selectedMode,
+subject: selectedSubject,
+difficulty: selectedDifficulty
+})
+});
+const data = await response.json();
+
+loading.style.display = 'none';
+
+if (data.error) {
+addMessage('bot', data.error, { source: 'Error' });
+} else {
+const meta = {
+source: data.source,
+accuracy: data.accuracyScore,
+bloomsLevel: data.bloomsLevel,
+subject: data.subject,
+pdfSources: data.pdfSources || []
+};
+addMessage('bot', data.answer, meta);
+
+// Update analytics
+userAnalytics.questionsAsked++;
+if (data.bloomsLevel) {
+userAnalytics.bloomsLevels[data.bloomsLevel]++;
+}
+updateAnalyticsDisplay(userAnalytics);
+}
+scrollToBottom();
+} catch (error) {
+loading.style.display = 'none';
+addMessage('bot', 'Connection lost. Please try again.', { source: 'Error' });
+}
+}
+
+function addMessage(type, content, meta = null) {
+const messagesContainer = document.getElementById('chatMessages');
+const messageDiv = document.createElement('div');
+messageDiv.className = `message ${type}`;
+
+const icon = type === 'user' ? '👤' : '🤖';
+const name = type === 'user' ? 'You' : 'PhenBOT';
+
+let metaHtml = '';
+if (meta) {
+let accuracyClass = 'accuracy-medium';
+if (meta.accuracy >= 80) accuracyClass = 'accuracy-high';
+else if (meta.accuracy < 50) accuracyClass = 'accuracy-low';
+
+let pdfSourcesHtml = '';
+if (meta.pdfSources && meta.pdfSources.length > 0) {
+pdfSourcesHtml = `
+<div class="pdf-sources">
+${meta.pdfSources.map(pdf => `<span class="pdf-source-tag">${pdf.name}</span>`).join('')}
+</div>
+`;
+}
+
+metaHtml = `
+<div class="message-meta">
+<span>${meta.source}</span>
+${meta.accuracy ? `<div class="accuracy-badge ${accuracyClass}">
+<span>📊</span>
+<span>${meta.accuracy}% accurate</span>
+</div>` : ''}
+${meta.bloomsLevel ? `<span>🎯 ${meta.bloomsLevel}</span>` : ''}
+${meta.subject ? `<span>📚 ${meta.subject}</span>` : ''}
+${pdfSourcesHtml}
+</div>
+`;
+}
+
+messageDiv.innerHTML = `
+<div class="message-header">
+<span>${icon}</span>
+<span>${name}</span>
+</div>
+<div class="message-content">${formatMessageContent(content)}</div>
+${metaHtml}
+`;
+
+messagesContainer.appendChild(messageDiv);
+scrollToBottom();
+}
+
+function formatMessageContent(content) {
+return content
+.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+.replace(/\*(.*?)\*/g, '<em>$1</em>')
+.replace(/`(.*?)`/g, '<code style="background:rgba(255,255,255,0.1);padding:2px 6px;border-radius:4px;font-family:monospace;">$1</code>')
+.replace(/\n/g, '<br>');
+}
+
+function scrollToBottom() {
+const messagesContainer = document.getElementById('chatMessages');
+messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// ===== ANALYTICS =====
+async function loadUserAnalytics() {
+try {
+const response = await fetch('/analytics', {
+method: 'GET',
+headers: { 'Authorization': `Bearer ${sessionToken}` }
+});
+const data = await response.json();
+if (data) {
+updateAnalyticsDisplay(data);
+}
+} catch (error) {
+console.warn('Failed to load analytics:', error);
+}
+}
+
+function updateAnalyticsDisplay(analytics) {
+document.getElementById('questionsAsked').textContent = analytics.questionsAsked || 0;
+document.getElementById('conceptsLearned').textContent = analytics.conceptsLearned?.length || 0;
+document.getElementById('studyTime').textContent = Math.round((analytics.studyTime || 0) / 60) + 'h';
+
+// Update Bloom's taxonomy progress
+const totalQuestions = analytics.questionsAsked || 1;
+Object.keys(analytics.bloomsLevels || {}).forEach(level => {
+const progress = ((analytics.bloomsLevels[level] || 0) / totalQuestions) * 100;
+const element = document.getElementById(level + 'Progress');
+if (element) {
+element.style.width = progress + '%';
+}
+});
+
+// Update overall progress
+const overallProgress = Math.min((analytics.questionsAsked || 0) * 2, 100);
+document.getElementById('progressFill').style.width = overallProgress + '%';
+document.getElementById('progressPercent').textContent = Math.round(overallProgress) + '%';
+}
+
+// ===== POMODORO TIMER =====
+function updateTimerDisplay() {
+const minutes = String(pomodoroTimer.minutes).padStart(2, '0');
+const seconds = String(pomodoroTimer.seconds).padStart(2, '0');
+document.getElementById('timerDisplay').textContent = `${minutes}:${seconds}`;
+}
+
+function startPomodoro() {
+if (!pomodoroTimer.isRunning) {
+pomodoroTimer.isRunning = true;
+document.getElementById('startTimer').classList.add('active');
+pomodoroTimer.interval = setInterval(() => {
+if (pomodoroTimer.seconds === 0) {
+if (pomodoroTimer.minutes === 0) {
+// Timer finished
+pomodoroTimer.isRunning = false;
+pomodoroTimer.focusSessions++;
+document.getElementById('focusSessions').textContent = pomodoroTimer.focusSessions;
+clearInterval(pomodoroTimer.interval);
+showNotification('Focus session complete! Time for a break!', 'success');
+resetPomodoro();
+return;
+}
+pomodoroTimer.minutes--;
+pomodoroTimer.seconds = 59;
+} else {
+pomodoroTimer.seconds--;
+}
+updateTimerDisplay();
+}, 1000);
+}
+}
+
+function pausePomodoro() {
+pomodoroTimer.isRunning = false;
+document.getElementById('startTimer').classList.remove('active');
+if (pomodoroTimer.interval) {
+clearInterval(pomodoroTimer.interval);
+}
+}
+
+function resetPomodoro() {
+pomodoroTimer.isRunning = false;
+pomodoroTimer.minutes = 25;
+pomodoroTimer.seconds = 0;
+document.getElementById('startTimer').classList.remove('active');
+if (pomodoroTimer.interval) {
+clearInterval(pomodoroTimer.interval);
+}
+updateTimerDisplay();
+}
+
+// ===== USER PREFERENCES =====
+async function updateUserPreferences() {
+if (!sessionToken) return;
+try {
+await fetch('/preferences', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'Authorization': `Bearer ${sessionToken}`
+},
+body: JSON.stringify({
+answerLength: selectedLength,
+analogyStyle: 'general'
+})
+});
+} catch (error) {
+console.warn('Failed to update preferences:', error);
+}
+}
+
+// ===== UTILITY FUNCTIONS =====
+async function removePDF(pdfId) {
+if (confirm('Are you sure you want to remove this PDF?')) {
+// This would need a server endpoint to delete PDFs
+showNotification('PDF removal feature coming soon!', 'info');
+}
+}
+
+function switchFlashcardType() {
+currentFlashcardType = currentFlashcardType === 'userMade' ? 'aiGenerated' : 'userMade';
+currentFlashcardIndex = 0;
+updateFlashcardDisplay();
+}
+
+// Add click handler to flashcard type display
+document.addEventListener('DOMContentLoaded', function() {
+const flashcardTypeEl = document.getElementById('flashcardType');
+if (flashcardTypeEl) {
+flashcardTypeEl.style.cursor = 'pointer';
+flashcardTypeEl.addEventListener('click', switchFlashcardType);
+}
+});
+
+// ===== NOTIFICATION SYSTEM =====
+function showNotification(message, type = 'info') {
+const notification = document.createElement('div');
+notification.className = `notification ${type}`;
+notification.textContent = message;
+document.body.appendChild(notification);
+
+setTimeout(() => {
+notification.style.animation = 'slideInRight 0.3s ease-out reverse';
+setTimeout(() => notification.remove(), 300);
+}, 4000);
+}
+
+// ===== ADDITIONAL QUICK ACTIONS =====
+function showBookmarks() {
+showNotification('Bookmarks feature coming soon!', 'info');
+}
+
+function generateQuiz() {
+showNotification('Quick quiz feature launching soon!', 'info');
+}
+
+function showSummary() {
+showNotification('Study summary feature in development!', 'info');
+}
+
+async function handlePDFUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('pdf', file);
+    formData.append('userId', currentUser.userId);
+
+    try {
+        showNotification('Processing your document...', 'info');
+
+        const response = await fetch('/upload.pdf', {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${sessionToken}` },
+            body: formData
+        });
+        const data = await response.json();
+
+        if (data.success) {
+            showNotification(`${file.name} uploaded successfully!`, 'success');
+            await loadUserPDFs(); // FIX: This was missing here too!
+        } else {
+            showNotification(data.error || 'PDF upload failed', 'error');
+        }
+    } catch (error) {
+        console.error('PDF upload error:', error);
+        showNotification('PDF upload failed. Please try again.', 'error');
+    }
+}
+
+
+
+// Initialize timer display and other components
+updateTimerDisplay();
+
+// Close modals when clicking outside
+document.addEventListener('click', function(e) {
+if (e.target.classList.contains('modal-overlay')) {
+e.target.style.display = 'none';
+}
+});
+
+// Initialize flashcard type as clickable
+setTimeout(() => {
+const flashcardTypeEl = document.getElementById('flashcardType');
+if (flashcardTypeEl) {
+flashcardTypeEl.title = 'Click to switch between User Made and AI Generated flashcards';
+flashcardTypeEl.style.cursor = 'pointer';
+flashcardTypeEl.style.textDecoration = 'underline';
+}
+}, 1000);
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
