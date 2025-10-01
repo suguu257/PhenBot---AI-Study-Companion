@@ -3,7 +3,7 @@
 PhenBOT is an AI-powered study assistant that makes learning interactive, personalised, and accessible for students of all levels. It provides instant answers, detailed explanations, and tools that turn studying into a more engaging experience.  
 
 ## Key Features  
-- **Instant Answers & Contextual Explanations** – Clear responses with the “why” behind the “what.”  
+- **Instant Answers & Contextual Explanations** – Clear responses with the 'why' behind the 'what.'  
 - **Interactive Learning** – Natural conversation with follow-ups and deeper exploration.  
 - **Subject Specialisation** – Tailored prompts for Math, Science, English, History, and more.  
 - **Analogy-Based Learning** – Explains concepts using relatable comparisons.  
