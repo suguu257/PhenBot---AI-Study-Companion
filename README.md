@@ -12,7 +12,7 @@ PhenBOT is an AI-powered study assistant that makes learning interactive, person
 - **Bloom’s Taxonomy Analysis** – Tracks errors and highlights weak areas with skill charts.  
 - **Reverse Learning Mode** – Act as a teacher to uncover knowledge gaps.  
 - **Save & Bookmark** – Keep important answers for quick revision.  
-- **Smart Study Tools** – Pomodoro timer, mindful break suggestions, and study time tracking.  
+- **Smart Study Tools** – Pomodoro timer, mindful break suggestions, calculator and study time tracking.  
 
 PhenBOT aims to be your **24/7 personal tutor**, combining AI guidance with tools for effective, focused learning.  
 
